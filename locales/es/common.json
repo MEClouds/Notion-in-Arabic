@@ -1,5 +1,9 @@
 {
   "Index": {
-    "title": "spain world!"
+    "title": "spain world!",
+    "dashboardPage": "dashboard protect page",
+    "sign-out": "sing out",
+    "sign-in": "sing in",
+    "sign-up": "register"
   }
 }

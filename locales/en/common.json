@@ -1,5 +1,9 @@
 {
   "Index": {
-    "title": "Hello world!"
+    "title": "Hello world!",
+    "dashboardPage": "dashboard protect page",
+    "sign-out": "sing out",
+    "sign-in": "sing in",
+    "sign-up": "register"
   }
 }
