@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# next-intl-starter-code
+
+Starter code for building Next.js 14 applications with internationalization (i18n) support. This project provides a foundation for creating multi-language applications (e.g., Arabic/English) using `next-intl` for localization. Additionally, it includes a branch (`clerk`) with integration for authentication using Clerk.
+
+## Features
+
+- **Next.js 14:** Utilize the latest features and improvements in Next.js for building modern web applications.
+
+- **Internationalization (i18n):** Use `next-intl` to enable localization and create applications that support multiple languages effortlessly.
+
+- **Multi-Language Support:** Easily set up and configure the application for different languages. An example is provided for Arabic (ar) and English (en).
+
+- **Authentication with Clerk:** The `clerk-branch` includes integration with Clerk for user authentication. Use Clerk to manage user sessions, sign-ups, logins, and more.
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
+  ```bash
+   git clone https://github.com/MEClouds/next-intl-starter-code.git
+  ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install dependencies:**
+  ```bash
+    cd next-intl-starter-code
+    npm install
+  ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Start the development server:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+  ```bash
+    npm run dev
+  ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    The application will be accessible at [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+### Internationalization (i18n)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `locales` directory contains language-specific JSON files for translation. Use the `next-intl` library to handle internationalization in your components.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To add a new language, create a new JSON file in the `locales` directory and configure the language in the `middleware.ts` file.
 
-## Deploy on Vercel
+### Authentication with Clerk
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you want to use Clerk for authentication, switch to the `clerk`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  ```bash
+git checkout clerk
+  ```
+
+
+Follow the Clerk documentation to set up your Clerk account and configure the necessary environment variables.
+
+## Contributing
+We welcome contributions! If you have ideas for improvements, bug fixes, or new features, feel free to open an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License.
