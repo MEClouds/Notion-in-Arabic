@@ -1,4 +1,5 @@
 import useTextDirection from "@/hooks/useTextDirection";
+import { ClerkProvider } from "@clerk/nextjs";
 import { useLocale } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -19,8 +20,10 @@ export default function LocaleLayout({ children }: Props) {
   if (!locales.includes(locale)) notFound();
 
   return (
-    <html lang={locale} dir={direction}>
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang={locale} dir={direction}>
+        <body className={inter.className}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
