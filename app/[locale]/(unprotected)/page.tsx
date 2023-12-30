@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   SignInButton,
   SignOutButton,
@@ -15,15 +16,15 @@ const LandingPage = () => {
 
   return (
     <div>
-      <h2>En/Ar next-intel starter code</h2>
+      <p className=" text-orange-400 font-bold">En/Ar Notion in Arabic</p>
       <div>
         <h1>{t("title")}</h1>
       </div>
       <Link href={"/ar"}>
-        <h3>عربي</h3>
+        <Button>عربي</Button>
       </Link>
       <Link href={"/en"}>
-        <h3>English</h3>
+        <Button>English</Button>
       </Link>
       <div>
         {userId ? (

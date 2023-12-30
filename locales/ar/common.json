@@ -1,13 +1,9 @@
 {
   "Index": {
-<<<<<<< HEAD
-    "title": "مرحبا بك في Notion!"
-=======
     "title": "مرحبا!",
     "dashboardPage": "لوحة التحكم",
     "sign-out": "تسجيل الخروج",
     "sign-in": "تسجيل الدخول",
     "sign-up": "تسجيل جديد"
->>>>>>> clerk
   }
 }

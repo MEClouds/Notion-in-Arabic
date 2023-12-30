@@ -1,5 +1,6 @@
 import useTextDirection from "@/hooks/useTextDirection";
 import { ClerkProvider } from "@clerk/nextjs";
+import "../globals.css";
 import { useLocale } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
