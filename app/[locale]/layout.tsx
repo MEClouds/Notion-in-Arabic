@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
+import { Metadata } from "next";
 
 // Can be imported from a shared config
 const locales: string[] = ["en", "ar", "es"];
@@ -14,6 +15,25 @@ type Props = {
   params: { locale: string };
 };
 
+export const metadata: Metadata = {
+  title: " Notions",
+  description:
+    "Notion app for Capture your thoughts, organize your projects, and effortlessly share your ideas.",
+  // icons:{
+  //   icon:[
+  //     {
+  //       media :"(prefers-color-scheme:light)",
+  //       url:"/logo.svg",
+  //       href:"/logo.svg",
+  //     },
+  //     {
+  //       media :"(prefers-color-scheme:light)",
+  //       url:"/logo-dark.svg",
+  //       href:"/logo-dark.svg",
+  //     },
+  //   ]
+  // }
+};
 export default function LocaleLayout({ children }: Props) {
   const locale = useLocale();
   const direction = useTextDirection(locale);

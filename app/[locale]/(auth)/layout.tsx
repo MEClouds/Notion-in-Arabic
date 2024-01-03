@@ -5,7 +5,11 @@ type Props = {
 };
 
 const layout = (props: Props) => {
-  return <div className="h-full bg-slate-700 text-white">{props.children}</div>;
+  return (
+    <div className=" h-full flex items-center justify-center">
+      {props.children}
+    </div>
+  );
 };
 
 export default layout;
