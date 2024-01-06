@@ -17,18 +17,30 @@ const Heroes = () => {
           <Image
             src="/reading.png"
             fill
-            className="object-contain"
+            className="object-contain dark:hidden"
+            alt="reading"
+          />
+
+          <Image
+            src="/reading-dark.png"
+            fill
+            className="object-contain hidden dark:block"
             alt="reading"
           />
         </div>
-
         {/* Hero image for documents section with responsive size classes, visible only on medium screens and above */}
         <div className="relative h-[400px] w-[400px] hidden md:block">
           {/* Image component with source, fill, and object-contain styling */}
           <Image
             src="/documents.png"
             fill
-            className="object-contain"
+            className="object-contain dark:hidden"
+            alt={"Documents"}
+          />
+          <Image
+            src="/documents-dark.png"
+            fill
+            className="object-contain hidden dark:block"
             alt={"Documents"}
           />
         </div>

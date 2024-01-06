@@ -1,11 +1,12 @@
 import useTextDirection from "@/hooks/useTextDirection";
 import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css";
-import { useLocale } from "next-intl";
+import { NextIntlClientProvider, useLocale, useMessages } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { Metadata } from "next";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 // Can be imported from a shared config
 const locales: string[] = ["en", "ar", "es"];
@@ -39,12 +40,25 @@ export default function LocaleLayout({ children }: Props) {
   const direction = useTextDirection(locale);
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale)) notFound();
+  const messages = useMessages();
 
   return (
     <ClerkProvider>
-      <html lang={locale} dir={direction}>
-        <body className={inter.className}>{children}</body>
-      </html>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <html lang={locale} dir={direction} suppressHydrationWarning>
+          <body className={inter.className}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="notions-theme"
+            >
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </NextIntlClientProvider>
     </ClerkProvider>
   );
 }

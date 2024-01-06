@@ -14,7 +14,7 @@ const Heading = () => {
       {/* Main heading with different font sizes and styles */}
       <h1
         className="
-          font-bold text-3xl sm:text-5xl md:text-6xl
+          font-bold text-3xl sm:text-5xl md:text-5xl
         "
       >
         {/* Dynamic heading content with translation and underlined span */}
