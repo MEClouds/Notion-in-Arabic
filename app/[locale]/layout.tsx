@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import ConvexProvider from "@/components/providers/convex-provider";
 
 // Can be imported from a shared config
 const locales: string[] = ["en", "ar", "es"];
@@ -43,10 +44,10 @@ export default function LocaleLayout({ children }: Props) {
   const messages = useMessages();
 
   return (
-    <ClerkProvider>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <html lang={locale} dir={direction} suppressHydrationWarning>
-          <body className={inter.className}>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <html lang={locale} dir={direction} suppressHydrationWarning>
+        <body className={inter.className}>
+          <ConvexProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -56,9 +57,9 @@ export default function LocaleLayout({ children }: Props) {
             >
               {children}
             </ThemeProvider>
-          </body>
-        </html>
-      </NextIntlClientProvider>
-    </ClerkProvider>
+          </ConvexProvider>
+        </body>
+      </html>
+    </NextIntlClientProvider>
   );
 }

@@ -1,13 +1,19 @@
 "use client";
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "./logo";
 import { useTranslations } from "next-intl";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useConvexAuth } from "convex/react";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/spinner";
+import Link from "next/link";
 
 // Component definition for Navbar
 const Navbar = () => {
+  const { isAuthenticated, isLoading } = useConvexAuth();
   // Custom hook to check if scrolled or not
   const scrolled = useScrollTop();
 
@@ -33,6 +39,27 @@ const Navbar = () => {
        w-full flex items-center gap-x-2"
       >
         {/* {t("sign-in")} */}
+        {isLoading && <Spinner />}
+        {!isAuthenticated && !isLoading && (
+          <>
+            <SignInButton mode="modal">
+              <Button variant={"ghost"} size={"sm"}>
+                {t("sign-in")}
+              </Button>
+            </SignInButton>
+            <SignInButton mode="modal">
+              <Button size={"sm"}>Notions</Button>
+            </SignInButton>
+          </>
+        )}
+        {isAuthenticated && !isLoading && (
+          <>
+            <Button variant={"ghost"} size={"sm"} asChild>
+              <Link href="/documents">{t("enter")}</Link>
+            </Button>
+            <UserButton afterSignOutUrl="/" />
+          </>
+        )}
 
         {/* ModeToggle component for toggling light/dark mode */}
         <ModeToggle />

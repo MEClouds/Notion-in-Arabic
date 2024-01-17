@@ -1,13 +1,18 @@
+"use client";
+import Spinner from "@/components/spinner";
 import { Button } from "@/components/ui/button";
-import { LogInIcon } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
+import { useConvexAuth } from "convex/react";
+import { ArrowRight, LogInIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import React from "react";
 
 // Heading component represents the main heading section of the LandingPage
 const Heading = () => {
   // Custom hook to use translations for internationalization
   const t = useTranslations("Index");
-
+  const { isAuthenticated, isLoading } = useConvexAuth();
   return (
     // Container with maximum width and vertical spacing
     <div className="max-w-3xl space-y-4">
@@ -22,17 +27,32 @@ const Heading = () => {
       </h1>
 
       {/* Subheading with varying text sizes and font weight */}
+
       <h3 className="text-base sm:text-xl md:text-2xl font-medium">
         {t("subHeading")}
       </h3>
-
       {/* Button component for user interaction */}
-      <Button>
-        {/* LogInIcon with customized size and margin */}
-        <LogInIcon className="h-4 w-4 mx-2" />
-        {/* Dynamic button text with translation */}
-        {t("enter")}
-      </Button>
+      {isLoading && (
+        <div className="w-full flex items-center justify-center ">
+          <Spinner size="lg" />
+        </div>
+      )}
+      {isAuthenticated && !isLoading && (
+        <Button>
+          <Link href="/documents">
+            <LogInIcon className="h-4 w-4 mx-2" />
+          </Link>
+          {t("enter")}
+        </Button>
+      )}
+      {!isAuthenticated && !isLoading && (
+        <SignInButton mode="modal">
+          <Button>
+            Get Notions Free
+            <ArrowRight className="h-4 w-4 mx-2" />
+          </Button>
+        </SignInButton>
+      )}
     </div>
   );
 };
