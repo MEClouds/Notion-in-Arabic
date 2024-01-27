@@ -1,0 +1,165 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { ChevronsLeft, ChevronsRight, MenuIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import React, { ElementRef, useRef, useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
+
+const Navigation = () => {
+  // Getting the direction of the HTML document (ltr or rtl)
+  const htmlDir = document.documentElement.getAttribute("dir");
+
+  // Getting the current pathname using the next/navigation hook
+  const pathname = usePathname();
+
+  // Checking if the screen width is less than or equal to 768 pixels
+  const isMobile = useMediaQuery("(max-width:768px)");
+
+  // Refs for elements and state variables
+  const isResizingRef = useRef(false);
+  const sidebarRef = useRef<ElementRef<"aside">>(null);
+  const navbarRef = useRef<ElementRef<"div">>(null);
+  const [isResetting, setIsResetting] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(isMobile);
+
+  // Function to handle mouse down event when resizing the sidebar
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    isResizingRef.current = true;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  // Function to handle mouse move event when resizing the sidebar
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!isResizingRef.current) return;
+    let newWidth = event.clientX;
+
+    // Adjusting width based on the document direction (ltr or rtl)
+    if (htmlDir === "rtl") {
+      newWidth = window.innerWidth - newWidth;
+    }
+
+    // Ensuring the width stays within certain bounds
+    if (newWidth < 240) newWidth = 240;
+    if (newWidth > 480) newWidth = 480;
+
+    // Updating the sidebar and navbar styles based on the new width
+    if (sidebarRef.current && navbarRef.current) {
+      sidebarRef.current.style.width = `${newWidth}px`;
+      navbarRef.current.style.setProperty("start", `${newWidth}px`);
+      navbarRef.current.style.setProperty(
+        "width",
+        `calc(100% - ${newWidth}px)`
+      );
+    }
+  };
+
+  // Function to handle mouse up event when resizing the sidebar
+  const handleMouseUp = () => {
+    isResizingRef.current = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+  const resetWidth = () => {
+    if (sidebarRef.current && navbarRef.current) {
+      setIsCollapsed(false);
+      setIsResetting(true);
+
+      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
+      navbarRef.current.style.setProperty(
+        "width",
+        isMobile ? "0" : "calc(100% - 240px)"
+      );
+      navbarRef.current.style.setProperty(
+        "inset-inline-start",
+        isMobile ? "100%" : "240px"
+      );
+      setTimeout(() => setIsResetting(false), 300);
+    }
+  };
+
+  const collapse = () => {
+    if (sidebarRef.current && navbarRef.current) {
+      setIsCollapsed(true);
+      setIsResetting(true);
+
+      sidebarRef.current.style.width = "0";
+      navbarRef.current.style.setProperty("width", "100%");
+      navbarRef.current.style.setProperty("inset-inline-start", "0");
+      setTimeout(() => setIsResetting(false), 300);
+    }
+  };
+
+  // Rendering the JSX for the Navigation component
+  return (
+    <>
+      {/* Sidebar component */}
+      <aside
+        ref={sidebarRef}
+        className={cn(
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[999] ",
+          isResetting && "transition-all ease-in-out duration-300",
+          isMobile && "w-0"
+        )}
+      >
+        {/* Resizing handle button >> or << */}
+        <div
+          onClick={collapse}
+          role="button"
+          className={cn(
+            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 end-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            isMobile && "opacity-100"
+          )}
+        >
+          {htmlDir == "rtl" ? (
+            <ChevronsRight className="h-6 w-6" />
+          ) : (
+            <ChevronsLeft className="h-6 w-6" />
+          )}
+        </div>
+        {/* Sidebar content */}
+        <div>
+          <p>Action Items</p>
+        </div>
+        <div className="mt-4">
+          <p>Documents</p>
+        </div>
+        {/*  Resizing handle with mouse */}
+        <div
+          onMouseDown={handleMouseDown}
+          onClick={resetWidth}
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 end-0 top-0"
+        />
+      </aside>
+
+      {/* Navbar component */}
+      <div
+        ref={navbarRef}
+        className={cn(
+          "absolute top-0 z-[9999] start-60 w-[calc(100%-240px)]",
+          isResetting && "transition-all ease-in-out duration-300",
+          isMobile && "start-0 w-full"
+        )}
+      >
+        {/* Navbar Menu icon */}
+        <nav className="bg-transparent px-3 py-3 w-full">
+          {isCollapsed && (
+            <MenuIcon
+              role="button"
+              onClick={resetWidth}
+              className="h-6 w-6 text-muted-foreground"
+            />
+          )}
+        </nav>
+      </div>
+    </>
+  );
+};
+
+export default Navigation;
