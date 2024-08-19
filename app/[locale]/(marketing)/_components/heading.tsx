@@ -48,8 +48,8 @@ const Heading = () => {
       {!isAuthenticated && !isLoading && (
         <SignInButton mode="modal">
           <Button>
-            Get Notions Free
             <ArrowRight className="h-4 w-4 mx-2" />
+            {t("GetNotionsFree")}
           </Button>
         </SignInButton>
       )}

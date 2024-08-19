@@ -5,7 +5,10 @@ import React from "react";
 const Heroes = () => {
   return (
     // Main container with flex layout and centered content
-    <div className="flex flex-col items-center justify-center max-w-5xl">
+    <div
+      className="flex flex-col items-center justify-center max-w-5xl"
+      dir="rtl"
+    >
       {/* Container for the two hero images, aligned horizontally */}
       <div className="flex items-center">
         {/* Hero image for reading section with responsive size classes */}

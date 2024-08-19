@@ -9,6 +9,16 @@
     "dashboardPage": "لوحة التحكم",
     "sign-out": "تسجيل الخروج",
     "sign-in": "تسجيل الدخول",
-    "sign-up": "تسجيل جديد"
+    "sign-up": "تسجيل جديد",
+    "GetNotionsFree": "احصل على Notions مجانا",
+    "CreateNote": "إنشاء ملاحظة",
+    "Welcome": "مرحبا ",
+    "Untitled": "بدون عنوان",
+    "toastLoading": "إنشاء ملاحظة جديدة...",
+    "toastSuccess": "تم إنشاء ملاحظة جديدة!",
+    "toastError": "فشل في إنشاء ملاحظة جديدة.",
+    "newPage": "صفحة جديدة",
+    "search": "بحث",
+    "Settings": "إعدادات"
   }
 }

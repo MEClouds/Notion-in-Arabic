@@ -3,7 +3,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware({
-  locales: ["ar", "en", "es"],
+  locales: ["ar", "en"],
   defaultLocale: "en",
 });
 
@@ -28,7 +28,7 @@ export const config = {
 
   matcher: [
     "/",
-    "/(ar|en|es)/:path*",
+    "/(ar|en)/:path*",
     "/((?!api|_next/static|_next/image|favicon.ico|apple-touch-icon.png|favicon.svg|images/books|icons|manifest).*)",
   ],
 };

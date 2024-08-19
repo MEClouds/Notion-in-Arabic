@@ -1,100 +1,127 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import { ChevronsLeft, ChevronsRight, MenuIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
-import React, { ElementRef, useRef, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
+import { cn } from "@/lib/utils"
+import {
+  ChevronsLeft,
+  ChevronsRight,
+  MenuIcon,
+  PlusCircle,
+  Search,
+  Settings,
+  Sidebar,
+} from "lucide-react"
+import { usePathname } from "next/navigation"
+import React, { ElementRef, useRef, useState } from "react"
+import { useMediaQuery } from "usehooks-ts"
+import { UserItem } from "./uset-item"
+import { useMutation, useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { Item } from "./item"
+import { useTranslations } from "next-intl"
+import { toast } from "sonner"
 
 const Navigation = () => {
   // Getting the direction of the HTML document (ltr or rtl)
-  const htmlDir = document.documentElement.getAttribute("dir");
+  const htmlDir = document.documentElement.getAttribute("dir")
 
   // Getting the current pathname using the next/navigation hook
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   // Checking if the screen width is less than or equal to 768 pixels
-  const isMobile = useMediaQuery("(max-width:768px)");
+  const isMobile = useMediaQuery("(max-width:768px)")
 
   // Refs for elements and state variables
-  const isResizingRef = useRef(false);
-  const sidebarRef = useRef<ElementRef<"aside">>(null);
-  const navbarRef = useRef<ElementRef<"div">>(null);
-  const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  const isResizingRef = useRef(false)
+  const sidebarRef = useRef<ElementRef<"aside">>(null)
+  const navbarRef = useRef<ElementRef<"div">>(null)
+  const [isResetting, setIsResetting] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(isMobile)
+  const t = useTranslations("Index")
+  const documents = useQuery(api.documents.get)
+  const create = useMutation(api.documents.create)
 
   // Function to handle mouse down event when resizing the sidebar
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault()
+    event.stopPropagation()
 
-    isResizingRef.current = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
+    isResizingRef.current = true
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+  }
 
   // Function to handle mouse move event when resizing the sidebar
   const handleMouseMove = (event: MouseEvent) => {
-    if (!isResizingRef.current) return;
-    let newWidth = event.clientX;
+    if (!isResizingRef.current) return
+
+    let newWidth = event.clientX
 
     // Adjusting width based on the document direction (ltr or rtl)
     if (htmlDir === "rtl") {
-      newWidth = window.innerWidth - newWidth;
+      newWidth = window.innerWidth - newWidth
     }
+    console.log(newWidth)
 
     // Ensuring the width stays within certain bounds
-    if (newWidth < 240) newWidth = 240;
-    if (newWidth > 480) newWidth = 480;
+    if (newWidth < 240) newWidth = 240
+    if (newWidth > 480) newWidth = 480
 
     // Updating the sidebar and navbar styles based on the new width
     if (sidebarRef.current && navbarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-      navbarRef.current.style.setProperty("start", `${newWidth}px`);
-      navbarRef.current.style.setProperty(
-        "width",
-        `calc(100% - ${newWidth}px)`
-      );
+      sidebarRef.current.style.width = `${newWidth}px`
+      navbarRef.current.style.setProperty("start", `${newWidth}px`)
+      navbarRef.current.style.setProperty("width", `calc(100% - ${newWidth}px)`)
     }
-  };
+  }
 
   // Function to handle mouse up event when resizing the sidebar
   const handleMouseUp = () => {
-    isResizingRef.current = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
+    isResizingRef.current = false
+    document.removeEventListener("mousemove", handleMouseMove)
+    document.removeEventListener("mouseup", handleMouseUp)
+  }
   const resetWidth = () => {
     if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(false);
-      setIsResetting(true);
-
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
+      setIsCollapsed(false)
+      setIsResetting(true)
+      console.log("reseting", sidebarRef, navbarRef)
+      sidebarRef.current.style.width = isMobile ? "100%" : "240px"
       navbarRef.current.style.setProperty(
         "width",
         isMobile ? "0" : "calc(100% - 240px)"
-      );
+      )
       navbarRef.current.style.setProperty(
         "inset-inline-start",
         isMobile ? "100%" : "240px"
-      );
-      setTimeout(() => setIsResetting(false), 300);
+      )
+      setTimeout(() => setIsResetting(false), 300)
     }
-  };
+  }
 
   const collapse = () => {
     if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(true);
-      setIsResetting(true);
+      setIsCollapsed(true)
+      setIsResetting(true)
 
-      sidebarRef.current.style.width = "0";
-      navbarRef.current.style.setProperty("width", "100%");
-      navbarRef.current.style.setProperty("inset-inline-start", "0");
-      setTimeout(() => setIsResetting(false), 300);
+      sidebarRef.current.style.width = "0"
+      navbarRef.current.style.setProperty("width", "100%")
+      navbarRef.current.style.setProperty("inset-inline-start", "0")
+      setTimeout(() => setIsResetting(false), 300)
     }
-  };
+  }
+
+  const handleCreate = () => {
+    const promise = create({
+      title: t("Untitled"),
+    })
+    toast.promise(promise, {
+      loading: t("toastLoading"),
+      success: t("toastSuccess"),
+      error: t("toastError"),
+    })
+  }
 
   // Rendering the JSX for the Navigation component
   return (
@@ -103,7 +130,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[999] ",
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[50] ",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0"
         )}
@@ -125,15 +152,20 @@ const Navigation = () => {
         </div>
         {/* Sidebar content */}
         <div>
-          <p>Action Items</p>
+          <UserItem />
+          <Item label={t("search")} icon={Search} isSearch onClick={() => {}} />
+          <Item label={t("Settings")} icon={Settings} onClick={() => {}} />
+          <Item onClick={handleCreate} label={t("newPage")} icon={PlusCircle} />
         </div>
         <div className="mt-4">
-          <p>Documents</p>
+          {documents?.map((document) => (
+            <p key={document._id}>{document.title}</p>
+          ))}
         </div>
         {/*  Resizing handle with mouse */}
         <div
           onMouseDown={handleMouseDown}
-          onClick={resetWidth}
+          onDoubleClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 end-0 top-0"
         />
       </aside>
@@ -142,7 +174,7 @@ const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[9999] start-60 w-[calc(100%-240px)]",
+          "absolute top-0 z-[50] start-60 w-[calc(100%-240px)]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "start-0 w-full"
         )}
@@ -159,7 +191,7 @@ const Navigation = () => {
         </nav>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation

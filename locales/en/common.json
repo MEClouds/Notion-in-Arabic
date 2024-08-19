@@ -9,6 +9,16 @@
     "dashboardPage": "dashboard protect page",
     "sign-out": "sing out",
     "sign-in": "sing in",
-    "sign-up": "register"
+    "sign-up": "register",
+    "GetNotionsFree": "Get Notions Free",
+    "Welcome": "Welecome",
+    "CreateNote": "Create a Note",
+    "Untitled": "Untitled",
+    "toastLoading": "Creating a new note...",
+    "toastSuccess": "New note created!",
+    "toastError": "Failed to create a new note.",
+    "newPage": "new page",
+    "search": "Search",
+    "Settings": "Settings"
   }
 }

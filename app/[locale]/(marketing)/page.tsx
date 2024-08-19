@@ -13,6 +13,7 @@ const LandingPage = () => {
         className="
           flex flex-col items-center justify-center md:justify-start text-center
           gap-y-3 flex-1 px-6 pb-10"
+        dir="rtl"
       >
         {/* Heading component for the title of the page */}
         <Heading />
