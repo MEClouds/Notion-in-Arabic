@@ -24,11 +24,13 @@ export const UserItem = ({}: Props) => {
           role="button"
           className="flex items-center text-sm p-3 w-full hover:bg-primary/5"
         >
-          <div className=" gap-2 flex items-center max-w-[150px]">
+          <div className=" gap-2 flex items-center max-w-[160px]">
             <Avatar className="h-5 w-5">
               <AvatarImage src={user?.imageUrl} />
             </Avatar>
-            <span className="text-start font-medium ">{user?.fullName}</span>
+            <span className="text-start font-medium truncate ">
+              {user?.fullName}
+            </span>
             <ChevronsUpDown className=" text-muted-foreground h-4 w-4" />
           </div>
         </div>

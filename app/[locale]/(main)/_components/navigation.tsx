@@ -5,22 +5,35 @@ import {
   ChevronsLeft,
   ChevronsRight,
   MenuIcon,
+  Plus,
   PlusCircle,
   Search,
   Settings,
   Sidebar,
+  Trash,
 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import React, { ElementRef, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import { UserItem } from "./uset-item"
-import { useMutation, useQuery } from "convex/react"
+import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { Item } from "./item"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
+import { DocumentList } from "./document-list"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { TrashBox } from "./trash-box"
+import { useSearch } from "@/hooks/use-search"
+import { useSettings } from "@/hooks/use-settings"
 
 const Navigation = () => {
+  const settings = useSettings()
+
   // Getting the direction of the HTML document (ltr or rtl)
   const htmlDir = document.documentElement.getAttribute("dir")
 
@@ -37,9 +50,8 @@ const Navigation = () => {
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
   const t = useTranslations("Index")
-  const documents = useQuery(api.documents.get)
   const create = useMutation(api.documents.create)
-
+  const search = useSearch()
   // Function to handle mouse down event when resizing the sidebar
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -153,14 +165,33 @@ const Navigation = () => {
         {/* Sidebar content */}
         <div>
           <UserItem />
-          <Item label={t("search")} icon={Search} isSearch onClick={() => {}} />
-          <Item label={t("Settings")} icon={Settings} onClick={() => {}} />
+          <Item
+            label={t("search")}
+            icon={Search}
+            isSearch
+            onClick={search.onOpen}
+          />
+          <Item
+            label={t("Settings")}
+            icon={Settings}
+            onClick={settings.onOpen}
+          />
           <Item onClick={handleCreate} label={t("newPage")} icon={PlusCircle} />
         </div>
         <div className="mt-4">
-          {documents?.map((document) => (
-            <p key={document._id}>{document.title}</p>
-          ))}
+          <DocumentList />
+          <Item onClick={handleCreate} icon={Plus} label={t("newPage")} />
+          <Popover>
+            <PopoverTrigger className="w-full mt-4">
+              <Item label={t("Trash")} icon={Trash} />
+            </PopoverTrigger>
+            <PopoverContent
+              side={isMobile ? "bottom" : htmlDir === "rtl" ? "left" : "right"}
+              className="p-0 w-72 z-50"
+            >
+              <TrashBox />
+            </PopoverContent>
+          </Popover>
         </div>
         {/*  Resizing handle with mouse */}
         <div

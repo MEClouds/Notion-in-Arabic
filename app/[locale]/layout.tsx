@@ -9,6 +9,7 @@ import { Metadata } from "next"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import ConvexProvider from "@/components/providers/convex-provider"
 import { Toaster } from "sonner"
+import { SettingsModalProvider } from "@/components/providers/settings-modal-provider"
 // Can be imported from a shared config
 const locales: string[] = ["en", "ar", "es"]
 const inter = Inter({ subsets: ["latin"] })
@@ -56,6 +57,7 @@ export default function LocaleLayout({ children }: Props) {
               storageKey="notions-theme"
             >
               <Toaster position="top-center" />
+              <SettingsModalProvider />
               {children}
             </ThemeProvider>
           </ConvexProvider>
