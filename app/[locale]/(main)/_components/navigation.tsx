@@ -12,7 +12,7 @@ import {
   Sidebar,
   Trash,
 } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import React, { ElementRef, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import { UserItem } from "./uset-item"
@@ -30,9 +30,11 @@ import {
 import { TrashBox } from "./trash-box"
 import { useSearch } from "@/hooks/use-search"
 import { useSettings } from "@/hooks/use-settings"
+import { Navbar } from "./navbar"
 
 const Navigation = () => {
   const settings = useSettings()
+  const params = useParams()
 
   // Getting the direction of the HTML document (ltr or rtl)
   const htmlDir = document.documentElement.getAttribute("dir")
@@ -211,15 +213,19 @@ const Navigation = () => {
         )}
       >
         {/* Navbar Menu icon */}
-        <nav className="bg-transparent px-3 py-3 w-full">
-          {isCollapsed && (
-            <MenuIcon
-              role="button"
-              onClick={resetWidth}
-              className="h-6 w-6 text-muted-foreground"
-            />
-          )}
-        </nav>
+        {!!params.documentid ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        ) : (
+          <nav className="bg-transparent px-3 py-3 w-full">
+            {isCollapsed && (
+              <MenuIcon
+                role="button"
+                onClick={resetWidth}
+                className="h-6 w-6 text-muted-foreground"
+              />
+            )}
+          </nav>
+        )}
       </div>
     </>
   )
