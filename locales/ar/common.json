@@ -46,6 +46,10 @@
     "MySettings": "إعداداتي",
     "Appearance": "مظهر",
     "AppearanceDesc": "قم بتخصيص كيفية ظهور Notions على جهازك",
-    "Language": "لغة"
+    "Language": "لغة",
+    "LanguageSettingsDesc": "تغيير لغة المفاهيم الخاصة بك",
+    "Light": "مضيئ",
+    "Dark": "مظلم",
+    "System": "نظام"
   }
 }

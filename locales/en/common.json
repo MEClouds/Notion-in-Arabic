@@ -47,6 +47,9 @@
     "Appearance": "Appearance",
     "AppearanceDesc": "Customize how Notions looks on your device",
     "Language": "Language",
-    "LanguageSettingsDesc": "Change your Notions language"
+    "LanguageSettingsDesc": "Change your Notions language",
+    "Light": "Light",
+    "Dark": "Dark",
+    "System": "System"
   }
 }
