@@ -38,8 +38,9 @@ export const Menu = ({ documentId }: Props) => {
     router.push("/documents")
   }
 
+  const isRtl = document.documentElement.dir === "rtl"
   return (
-    <DropdownMenu>
+    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
       <DropdownMenuTrigger asChild>
         <Button size={"sm"} variant={"ghost"}>
           <MoreHorizontal className="h-4 w-4" />
