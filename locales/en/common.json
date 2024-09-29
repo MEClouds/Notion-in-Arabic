@@ -50,6 +50,10 @@
     "LanguageSettingsDesc": "Change your Notions language",
     "Light": "Light",
     "Dark": "Dark",
-    "System": "System"
+    "System": "System",
+    "TrashPage": "This page in the Trash.",
+    "Restore": "Restore page",
+    "Remove": "Delete forever",
+    "LastEdited": "Last edited by:"
   }
 }
