@@ -106,10 +106,10 @@ const Navigation = () => {
         "width",
         isMobile ? "0" : "calc(100% - 240px)"
       )
-      navbarRef.current.style.setProperty(
-        "inset-inline-start",
-        isMobile ? "100%" : "240px"
-      )
+      // navbarRef.current.style.setProperty(
+      //   "inset-inline-start",
+      //   isMobile ? "100%" : "240px"
+      // )
       setTimeout(() => setIsResetting(false), 300)
     }
   }
@@ -121,7 +121,7 @@ const Navigation = () => {
 
       sidebarRef.current.style.width = "0"
       navbarRef.current.style.setProperty("width", "100%")
-      navbarRef.current.style.setProperty("inset-inline-start", "0")
+      // navbarRef.current.style.setProperty("inset-inline-start", "0")
       setTimeout(() => setIsResetting(false), 300)
     }
   }
@@ -207,9 +207,9 @@ const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[50] start-60 w-[calc(100%-240px)]",
-          isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "start-0 w-full"
+          " absolute top-0 z-[50] end-0 w-[calc(100%-240px)]",
+          isResetting && "transition-all end-0 ease-in-out duration-300",
+          isMobile && " w-full"
         )}
       >
         {/* Navbar Menu icon */}
