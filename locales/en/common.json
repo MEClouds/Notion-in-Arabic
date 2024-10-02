@@ -54,6 +54,12 @@
     "TrashPage": "This page in the Trash.",
     "Restore": "Restore page",
     "Remove": "Delete forever",
-    "LastEdited": "Last edited by:"
+    "LastEdited": "Last edited by:",
+    "AddIcon": "Add icon",
+    "AddCover": "Add cover Image",
+    "dragToUpload": "Click or drag file to upload",
+    "CoverImage": "Cover Image",
+    "ChangeCover": "Change cover image",
+    "remove": "Remove"
   }
 }
