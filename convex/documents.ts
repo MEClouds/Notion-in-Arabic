@@ -2,17 +2,16 @@ import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { Doc, Id } from "./_generated/dataModel"
 
+// Archive a document and its children
 export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
 
     const userId = identity.subject
-
     const existingDocument = await ctx.db.get(args.id)
 
     if (!existingDocument) {
@@ -34,6 +33,7 @@ export const archive = mutation({
       for (const child of children) {
         await ctx.db.patch(child._id, {
           isArchived: true,
+          updatedAt: Date.now(),
         })
         await recursiveArchive(child._id)
       }
@@ -41,6 +41,7 @@ export const archive = mutation({
 
     const document = await ctx.db.patch(args.id, {
       isArchived: true,
+      updatedAt: Date.now(),
     })
 
     recursiveArchive(args.id)
@@ -48,16 +49,15 @@ export const archive = mutation({
   },
 })
 
+// Get documents in the trash
 export const getTrash = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
 
     const userId = identity.subject
-
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
@@ -68,17 +68,16 @@ export const getTrash = query({
   },
 })
 
+// Restore a document and its children
 export const restore = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
 
     const userId = identity.subject
-
     const existingDocument = await ctx.db.get(args.id)
 
     if (!existingDocument) {
@@ -100,6 +99,7 @@ export const restore = mutation({
       for (const child of children) {
         await ctx.db.patch(child._id, {
           isArchived: false,
+          updatedAt: Date.now(),
         })
         await recursiveRestore(child._id)
       }
@@ -107,6 +107,7 @@ export const restore = mutation({
 
     const options: Partial<Doc<"documents">> = {
       isArchived: false,
+      updatedAt: Date.now(),
     }
 
     if (existingDocument.parentDocument) {
@@ -117,22 +118,21 @@ export const restore = mutation({
     }
 
     const document = await ctx.db.patch(args.id, options)
-
     recursiveRestore(args.id)
     return document
   },
 })
 
+// Remove a document
 export const remove = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
-    const userId = identity.subject
 
+    const userId = identity.subject
     const existingDocument = await ctx.db.get(args.id)
 
     if (!existingDocument) {
@@ -144,23 +144,22 @@ export const remove = mutation({
     }
 
     const document = await ctx.db.delete(args.id)
-
     return document
   },
 })
 
+// Get sidebar documents
 export const getSidebar = query({
   args: {
     parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
-    const userId = identity.subject
 
+    const userId = identity.subject
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user_parent", (q) =>
@@ -173,19 +172,25 @@ export const getSidebar = query({
   },
 })
 
-// export const get = query({
-//   handler: async (ctx) => {
-//     const identity = await ctx.auth.getUserIdentity()
+// Get documents ordered by updatedAt
+export const getDocuments = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) {
+      throw new Error("Not Authenticated")
+    }
+    const documents = await ctx.db
+      .query("documents")
+      .filter((q) => q.eq(q.field("isArchived"), false))
+      .order("desc")
+      .collect()
 
-//     if (!identity) {
-//       throw new Error("Not Authenticated")
-//     }
-//     const documents = await ctx.db.query("documents").collect()
+    documents.sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+    return documents
+  },
+})
 
-//     return documents
-//   },
-// })
-
+// Create a new document
 export const create = mutation({
   args: {
     title: v.string(),
@@ -198,6 +203,7 @@ export const create = mutation({
     }
 
     const userId = identity.subject
+    const now = Date.now()
 
     const document = await ctx.db.insert("documents", {
       title: args.title,
@@ -205,31 +211,32 @@ export const create = mutation({
       userId,
       isArchived: false,
       isPublished: false,
+      updatedAt: now,
     })
     return document
   },
 })
 
+// Search documents
 export const getSearch = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
-    const userId = identity.subject
 
+    const userId = identity.subject
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect()
-
     return documents
   },
 })
 
+// Get a document by ID
 export const getById = query({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
@@ -243,7 +250,6 @@ export const getById = query({
     }
 
     const userId = identity.subject
-
     if (document.userId !== userId) {
       throw new Error("Not authorized")
     }
@@ -252,6 +258,7 @@ export const getById = query({
   },
 })
 
+// Update a document
 export const update = mutation({
   args: {
     id: v.id("documents"),
@@ -269,7 +276,6 @@ export const update = mutation({
 
     const userId = identity.subject
     const { id, ...rest } = args
-
     const existingDocument = await ctx.db.get(id)
 
     if (!existingDocument) {
@@ -282,27 +288,27 @@ export const update = mutation({
 
     const document = await ctx.db.patch(id, {
       ...rest,
+      updatedAt: Date.now(),
     })
 
     return document
   },
 })
 
+// Remove the icon from a document
 export const removeIcon = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Unauthenticated")
     }
 
     const userId = identity.subject
-
     const existingDocument = await ctx.db.get(args.id)
 
     if (!existingDocument) {
-      throw new Error("Not fount")
+      throw new Error("Not found")
     }
 
     if (existingDocument.userId !== userId) {
@@ -311,27 +317,27 @@ export const removeIcon = mutation({
 
     const document = await ctx.db.patch(args.id, {
       icon: undefined,
+      updatedAt: Date.now(),
     })
 
     return document
   },
 })
 
+// Remove the cover image from a document
 export const removeCover = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if (!identity) {
       throw new Error("Unauthenticated")
     }
 
     const userId = identity.subject
-
     const existingDocument = await ctx.db.get(args.id)
 
     if (!existingDocument) {
-      throw new Error("Not fount")
+      throw new Error("Not found")
     }
 
     if (existingDocument.userId !== userId) {
@@ -340,6 +346,7 @@ export const removeCover = mutation({
 
     const document = await ctx.db.patch(args.id, {
       coverImage: undefined,
+      updatedAt: Date.now(),
     })
 
     return document

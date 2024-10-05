@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils"
 import {
   ChevronsLeft,
   ChevronsRight,
+  Home,
   MenuIcon,
+  PenSquare,
   Plus,
   PlusCircle,
   Search,
@@ -12,7 +14,7 @@ import {
   Sidebar,
   Trash,
 } from "lucide-react"
-import { useParams, usePathname } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import React, { ElementRef, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import { UserItem } from "./uset-item"
@@ -35,6 +37,7 @@ import { Navbar } from "./navbar"
 const Navigation = () => {
   const settings = useSettings()
   const params = useParams()
+  const router = useRouter()
 
   // Getting the direction of the HTML document (ltr or rtl)
   const htmlDir = document.documentElement.getAttribute("dir")
@@ -129,7 +132,7 @@ const Navigation = () => {
   const handleCreate = () => {
     const promise = create({
       title: t("Untitled"),
-    })
+    }).then((documentid) => router.push(`/documents/${documentid}`))
     toast.promise(promise, {
       loading: t("toastLoading"),
       success: t("toastSuccess"),
@@ -174,11 +177,16 @@ const Navigation = () => {
             onClick={search.onOpen}
           />
           <Item
+            label={t("Home")}
+            icon={Home}
+            onClick={() => router.push("/documents")}
+          />
+          <Item
             label={t("Settings")}
             icon={Settings}
             onClick={settings.onOpen}
           />
-          <Item onClick={handleCreate} label={t("newPage")} icon={PlusCircle} />
+          <Item onClick={handleCreate} label={t("newPage")} icon={PenSquare} />
         </div>
         <div className="mt-4">
           <DocumentList />

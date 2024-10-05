@@ -60,6 +60,8 @@
     "dragToUpload": "انقر أو اسحب الملف للتحميل",
     "CoverImage": "صورة الغلاف",
     "ChangeCover": "تغيير صورة الغلاف",
-    "remove": "يزيل"
+    "remove": "يزيل",
+    "Home": "الرئيسية",
+    "RecentDocuments": "المستندات الحديثة"
   }
 }

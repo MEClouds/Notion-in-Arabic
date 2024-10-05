@@ -61,7 +61,7 @@ export const Toolbar = ({ initialData, preview }: Props) => {
     })
   }
   return (
-    <>
+    <div>
       <div className="pl-[54px] group relative max-w-sm  -mt-16">
         {!!initialData?.icon && !preview && (
           <div className="flex items-center gap-x-2 group/icon pt-6">
@@ -131,6 +131,6 @@ export const Toolbar = ({ initialData, preview }: Props) => {
           {initialData?.title}
         </div>
       )}
-    </>
+    </div>
   )
 }

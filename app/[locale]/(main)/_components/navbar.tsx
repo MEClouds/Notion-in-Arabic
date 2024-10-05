@@ -8,6 +8,7 @@ import { useParams } from "next/navigation"
 import { Title } from "./title"
 import { Banner } from "./banner"
 import { Menu } from "./menu"
+import React from "react"
 
 type Props = {
   isCollapsed: boolean

@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { ChevronsUpDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 type Props = {}
@@ -31,7 +31,7 @@ export const UserItem = ({}: Props) => {
             <span className="text-start font-medium truncate ">
               {user?.fullName}
             </span>
-            <ChevronsUpDown className=" text-muted-foreground h-4 w-4" />
+            <ChevronDown className=" text-muted-foreground h-4 w-4" />
           </div>
         </div>
       </DropdownMenuTrigger>

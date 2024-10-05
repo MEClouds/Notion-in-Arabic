@@ -60,6 +60,8 @@
     "dragToUpload": "Click or drag file to upload",
     "CoverImage": "Cover Image",
     "ChangeCover": "Change cover image",
-    "remove": "Remove"
+    "remove": "Remove",
+    "Home": "Home",
+    "RecentDocuments": "Recent documents"
   }
 }

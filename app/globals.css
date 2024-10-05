@@ -80,3 +80,14 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.bn-side-menu {
+  @apply start-0 bg-slate-400;
+}
+.bn-drag-handle-menu {
+  @apply start-0 bg-slate-400;
+}
+
+.bn-suggestion-menu {
+  @apply start-0 bg-slate-400;
+}
