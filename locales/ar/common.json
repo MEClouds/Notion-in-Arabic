@@ -62,6 +62,20 @@
     "ChangeCover": "تغيير صورة الغلاف",
     "remove": "يزيل",
     "Home": "الرئيسية",
-    "RecentDocuments": "المستندات الحديثة"
+    "RecentDocuments": "المستندات الحديثة",
+    "Empty": "فارغ",
+    "back": "عُد",
+    "publishing": "يتم الان النشر ",
+    "NotePublished": "تم نشر المذكرة",
+    "FailedToPublish": "فشل في نشر الملاحظة.",
+    "Unpublishing": "",
+    "FailedToUnPublish": "فشل إلغاء نشر الملاحظة.",
+    "UnPublishing": "جارٍ إلغاء النشر...",
+    "Publish": "نشر",
+    "Published": "تم النشر",
+    "PublishThisNote": "نشر هذه المذكرة",
+    "shareYourWork": "شارك عملك مع الجمهور",
+    "ThisNoteisLive": "هذه المذكرة متاحة الآن على الويب.",
+    "UnPublish": "إلغاء النشر"
   }
 }

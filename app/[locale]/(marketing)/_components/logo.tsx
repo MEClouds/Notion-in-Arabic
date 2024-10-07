@@ -1,13 +1,13 @@
-import React from "react";
-import { Poppins } from "next/font/google";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import React from "react"
+import { Poppins } from "next/font/google"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 // Define the Poppins font with specific subsets and weights
 const font = Poppins({
   subsets: ["latin"],
   weight: ["400", "600"],
-});
+})
 
 // Logo component definition
 const Logo = () => {
@@ -15,15 +15,28 @@ const Logo = () => {
     // Container for the logo and text, visible on medium-sized screens and above
     <div className="hidden md:flex items-center gap-x-2">
       {/* Next.js Image component for the logo */}
-      <Image src="/vercel.svg" height={"40"} width={"40"} alt="logo" />
+      <Image
+        className="dark:hidden"
+        src="/logo.svg"
+        height={"40"}
+        width={"40"}
+        alt="logo"
+      />
+      <Image
+        className="hidden dark:block"
+        src="/logo-dark.svg"
+        height={"40"}
+        width={"40"}
+        alt="logo"
+      />
 
       {/* Text component with Tailwind CSS classes */}
       <p className={cn("font-semibold", font.className)}>Notions</p>
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo
 
 // Explanation of Tailwind CSS classes:
 

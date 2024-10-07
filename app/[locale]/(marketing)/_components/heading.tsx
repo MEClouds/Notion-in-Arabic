@@ -1,18 +1,18 @@
-"use client";
-import Spinner from "@/components/spinner";
-import { Button } from "@/components/ui/button";
-import { SignInButton } from "@clerk/nextjs";
-import { useConvexAuth } from "convex/react";
-import { ArrowRight, LogInIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
-import React from "react";
+"use client"
+import Spinner from "@/components/spinner"
+import { Button } from "@/components/ui/button"
+import { SignInButton } from "@clerk/nextjs"
+import { useConvexAuth } from "convex/react"
+import { ArrowRight, LogInIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+import Link from "next/link"
+import React from "react"
 
 // Heading component represents the main heading section of the LandingPage
 const Heading = () => {
   // Custom hook to use translations for internationalization
-  const t = useTranslations("Index");
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const t = useTranslations("Index")
+  const { isAuthenticated, isLoading } = useConvexAuth()
   return (
     // Container with maximum width and vertical spacing
     <div className="max-w-3xl space-y-4">
@@ -47,14 +47,14 @@ const Heading = () => {
       )}
       {!isAuthenticated && !isLoading && (
         <SignInButton mode="modal">
-          <Button>
+          <Button className="bg-[#0582FF] hover:bg-[#045AC3] text-white transition-all rounded-md">
             <ArrowRight className="h-4 w-4 mx-2" />
             {t("GetNotionsFree")}
           </Button>
         </SignInButton>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Heading;
+export default Heading

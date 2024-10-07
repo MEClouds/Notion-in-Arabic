@@ -23,20 +23,20 @@ export const metadata: Metadata = {
   title: " Notions",
   description:
     "Notion app for Capture your thoughts, organize your projects, and effortlessly share your ideas.",
-  // icons:{
-  //   icon:[
-  //     {
-  //       media :"(prefers-color-scheme:light)",
-  //       url:"/logo.svg",
-  //       href:"/logo.svg",
-  //     },
-  //     {
-  //       media :"(prefers-color-scheme:light)",
-  //       url:"/logo-dark.svg",
-  //       href:"/logo-dark.svg",
-  //     },
-  //   ]
-  // }
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme:light)",
+        url: "/logo.svg",
+        href: "/logo.svg",
+      },
+      {
+        media: "(prefers-color-scheme:dark)",
+        url: "/logo-dark.svg",
+        href: "/logo-dark.svg",
+      },
+    ],
+  },
 }
 export default function LocaleLayout({ children }: Props) {
   const locale = useLocale()

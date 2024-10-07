@@ -13,12 +13,12 @@ type Props = {
 export const DocumentCardList = ({ documents, title, icon: Icon }: Props) => {
   const router = useRouter()
   return (
-    <div className=" mx-auto max-w-screen-lg flex-col">
+    <div className=" mx-auto max-w-screen-lg grid grid-cols-1 pb-10">
       <h2 className="mt-2 ps-3 flex  text-muted-foreground text-start text-xs">
         <Icon className="h-4 w-4 me-2" />
         {title}
       </h2>
-      <div className=" mt-10 px-3 w-full  flex-wrap flex  gap-4">
+      <div className=" mt-4 px-3 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6  gap-4">
         {documents.map((document) => (
           <div
             key={document._id}

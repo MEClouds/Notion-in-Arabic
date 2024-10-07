@@ -1,31 +1,32 @@
-"use client";
-import { useScrollTop } from "@/hooks/use-scroll-top";
-import { cn } from "@/lib/utils";
-import React, { useState } from "react";
-import Logo from "./logo";
-import { useTranslations } from "next-intl";
-import { ModeToggle } from "@/components/mode-toggle";
-import { useConvexAuth } from "convex/react";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import Spinner from "@/components/spinner";
-import Link from "next/link";
+"use client"
+import { useScrollTop } from "@/hooks/use-scroll-top"
+import { cn } from "@/lib/utils"
+import React, { useState } from "react"
+import Logo from "./logo"
+import { useTranslations } from "next-intl"
+import { ModeToggle } from "@/components/mode-toggle"
+import { useConvexAuth } from "convex/react"
+import { SignInButton, UserButton } from "@clerk/nextjs"
+import { Button } from "@/components/ui/button"
+import Spinner from "@/components/spinner"
+import Link from "next/link"
+import { LocaleSwitch } from "@/components/locale-switch"
 
 // Component definition for Navbar
 const Navbar = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const { isAuthenticated, isLoading } = useConvexAuth()
   // Custom hook to check if scrolled or not
-  const scrolled = useScrollTop();
+  const scrolled = useScrollTop()
 
   // Internationalization hook to get translations
-  const t = useTranslations("Index");
+  const t = useTranslations("Index")
 
   return (
     // Navbar container with dynamic class names using Tailwind CSS utility functions
     <div
       className={cn(
         // Base styles for the Navbar
-        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full p-6",
+        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full p-3",
         // Conditional styles based on scroll position
         scrolled && "border-b shadow-md dark:shadow-gray-700"
       )}
@@ -60,15 +61,15 @@ const Navbar = () => {
             <UserButton afterSignOutUrl="/" />
           </>
         )}
-
+        <LocaleSwitch />
         {/* ModeToggle component for toggling light/dark mode */}
         <ModeToggle />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
 
 // z-50:
 // This sets the z-index of the element to 50. It's often used to control the stacking order of elements.

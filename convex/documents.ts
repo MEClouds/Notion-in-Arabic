@@ -245,6 +245,11 @@ export const getById = query({
     if (!document) {
       throw new Error("Not Found")
     }
+
+    if (document.isPublished) {
+      return document
+    }
+
     if (!identity) {
       throw new Error("Not authenticated")
     }

@@ -40,21 +40,20 @@ const DocumentsPage = () => {
     <>
       {documents.length === 0 && (
         <div className="h-full flex flex-col items-center justify-center space-y-4">
-          Empty
-          {/* <Image
-      src={}
-      height={"300"}
-      width={"400"}
-      alt="empty"
-      className="dark:hidden"
-      />
-      <Image
-      src={}
-      height={"300"}
-      width={"400"}
-      alt="empty"
-      className="hidden dark:block"
-      /> */}
+          <Image
+            src={"/empty.svg"}
+            height={"200"}
+            width={"300"}
+            alt="empty"
+            className="dark:hidden"
+          />
+          <Image
+            src={"/empty-dark.svg"}
+            height={"200"}
+            width={"300"}
+            alt="empty"
+            className="hidden dark:block"
+          />
           <h2>
             {t("Welcome")} {user?.fullName}
           </h2>

@@ -62,6 +62,21 @@
     "ChangeCover": "Change cover image",
     "remove": "Remove",
     "Home": "Home",
-    "RecentDocuments": "Recent documents"
+    "RecentDocuments": "Recent documents",
+    "Empty": "Empty",
+    "error": "Somthing went wrong!",
+    "back": "Go back",
+    "publishing": "Publising...",
+    "NotePublished": "Note published",
+    "FailedToPublish": "Failed to publish note.",
+    "UnPublishing": "Unpublishing...",
+    "NoteUnPublished": "Note unpublised",
+    "FailedToUnPublish": "Failed to unpublish note.",
+    "Publish": "Publish",
+    "Published": "Published",
+    "PublishThisNote": "Publish this note",
+    "shareYourWork": "Share your work with public",
+    "ThisNoteisLive": "This note is live now on web.",
+    "UnPublish": "Unpublish"
   }
 }

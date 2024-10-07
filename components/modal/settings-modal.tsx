@@ -5,6 +5,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog"
 import { useTranslations } from "next-intl"
 import { Label } from "@radix-ui/react-dropdown-menu"
+import { LocaleSwitch } from "../locale-switch"
 
 export const SettingsModal = () => {
   const settings = useSettings()
@@ -31,7 +32,7 @@ export const SettingsModal = () => {
               {t("LanguageSettingsDesc")}
             </span>
           </div>
-          {/* To DO Add Language Changer */}
+          <LocaleSwitch />
         </div>
       </DialogContent>
     </Dialog>
