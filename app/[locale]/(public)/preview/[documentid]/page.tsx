@@ -18,7 +18,7 @@ const DocumentIdPage = ({ params }: DocumentProps) => {
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     []
   )
-  const document = useQuery(api.documents.getById, {
+  const document = useQuery(api.documents.getPreviewById, {
     documentId: params.documentid,
   })
 

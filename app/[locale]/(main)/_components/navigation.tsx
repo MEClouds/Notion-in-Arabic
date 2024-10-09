@@ -8,10 +8,8 @@ import {
   MenuIcon,
   PenSquare,
   Plus,
-  PlusCircle,
   Search,
   Settings,
-  Sidebar,
   Trash,
 } from "lucide-react"
 import { useParams, usePathname, useRouter } from "next/navigation"
@@ -39,8 +37,8 @@ const Navigation = () => {
   const params = useParams()
   const router = useRouter()
 
-  // Getting the direction of the HTML document (ltr or rtl)
-  const htmlDir = document.documentElement.getAttribute("dir")
+  // Getting the direction of the HTML document
+  const isRTL = document.documentElement.getAttribute("dir") === "rtl"
 
   // Getting the current pathname using the next/navigation hook
   const pathname = usePathname()
@@ -54,6 +52,8 @@ const Navigation = () => {
   const navbarRef = useRef<ElementRef<"div">>(null)
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
+
+  const [mobileNavClosed, setMobileNavClosed] = useState(false)
   const t = useTranslations("Index")
   const create = useMutation(api.documents.create)
   const search = useSearch()
@@ -76,7 +76,7 @@ const Navigation = () => {
     let newWidth = event.clientX
 
     // Adjusting width based on the document direction (ltr or rtl)
-    if (htmlDir === "rtl") {
+    if (isRTL) {
       newWidth = window.innerWidth - newWidth
     }
     console.log(newWidth)
@@ -103,16 +103,17 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false)
       setIsResetting(true)
-      console.log("reseting", sidebarRef, navbarRef)
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px"
       navbarRef.current.style.setProperty(
         "width",
         isMobile ? "0" : "calc(100% - 240px)"
       )
-      // navbarRef.current.style.setProperty(
-      //   "inset-inline-start",
-      //   isMobile ? "100%" : "240px"
-      // )
+      sidebarRef.current.style.width = isMobile ? "100%" : "240px"
+      console.log(
+        "reseting",
+        sidebarRef.current.style.width,
+        navbarRef.current.style.width
+      )
+      setMobileNavClosed(true)
       setTimeout(() => setIsResetting(false), 300)
     }
   }
@@ -121,10 +122,9 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(true)
       setIsResetting(true)
-
-      sidebarRef.current.style.width = "0"
+      setMobileNavClosed(false)
+      sidebarRef.current.style.width = "0px"
       navbarRef.current.style.setProperty("width", "100%")
-      // navbarRef.current.style.setProperty("inset-inline-start", "0")
       setTimeout(() => setIsResetting(false), 300)
     }
   }
@@ -161,7 +161,7 @@ const Navigation = () => {
             isMobile && "opacity-100"
           )}
         >
-          {htmlDir == "rtl" ? (
+          {isRTL ? (
             <ChevronsRight className="h-6 w-6" />
           ) : (
             <ChevronsLeft className="h-6 w-6" />
@@ -196,7 +196,7 @@ const Navigation = () => {
               <Item label={t("Trash")} icon={Trash} />
             </PopoverTrigger>
             <PopoverContent
-              side={isMobile ? "bottom" : htmlDir === "rtl" ? "left" : "right"}
+              side={isMobile ? "bottom" : isRTL ? "left" : "right"}
               className="p-0 w-72 z-50"
             >
               <TrashBox />
@@ -212,12 +212,16 @@ const Navigation = () => {
       </aside>
 
       {/* Navbar component */}
+      {/* Todo :there weird bug in rtl mobile mode this temporally solution until find */}
       <div
         ref={navbarRef}
         className={cn(
-          " absolute top-0 z-[50] end-0 w-[calc(100%-240px)]",
+          "  absolute top-0 z-[50] end-0 w-[calc(100%-240px)]",
           isResetting && "transition-all end-0 ease-in-out duration-300",
-          isMobile && " w-full"
+          isMobile && " w-full ",
+          isMobile &&
+            mobileNavClosed &&
+            "hidden transition-all ease-in-out duration-300 "
         )}
       >
         {/* Navbar Menu icon */}

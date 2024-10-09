@@ -246,10 +246,6 @@ export const getById = query({
       throw new Error("Not Found")
     }
 
-    if (document.isPublished) {
-      return document
-    }
-
     if (!identity) {
       throw new Error("Not authenticated")
     }
@@ -260,6 +256,22 @@ export const getById = query({
     }
 
     return document
+  },
+})
+
+export const getPreviewById = query({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const document = await ctx.db.get(args.documentId)
+    if (!document) {
+      throw new Error("Not Found")
+    }
+
+    if (document.isPublished) {
+      return document
+    } else {
+      throw new Error("Not authorized")
+    }
   },
 })
 

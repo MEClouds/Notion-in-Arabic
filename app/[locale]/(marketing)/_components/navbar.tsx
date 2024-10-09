@@ -61,9 +61,11 @@ const Navbar = () => {
             <UserButton afterSignOutUrl="/" />
           </>
         )}
-        <LocaleSwitch />
-        {/* ModeToggle component for toggling light/dark mode */}
-        <ModeToggle />
+        <div className="flex items-center">
+          <LocaleSwitch />
+          {/* ModeToggle component for toggling light/dark mode */}
+          <ModeToggle />
+        </div>
       </div>
     </div>
   )
