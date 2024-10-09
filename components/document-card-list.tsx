@@ -18,7 +18,7 @@ export const DocumentCardList = ({ documents, title, icon: Icon }: Props) => {
         <Icon className="h-4 w-4 me-2" />
         {title}
       </h2>
-      <div className=" mt-4 px-3 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6  gap-4">
+      <div className=" mt-4 px-3 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  gap-4">
         {documents.map((document) => (
           <div
             key={document._id}

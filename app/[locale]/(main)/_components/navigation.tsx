@@ -13,7 +13,7 @@ import {
   Trash,
 } from "lucide-react"
 import { useParams, usePathname, useRouter } from "next/navigation"
-import React, { ElementRef, useRef, useState } from "react"
+import React, { ElementRef, useEffect, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import { UserItem } from "./uset-item"
 import { useMutation } from "convex/react"
@@ -31,11 +31,13 @@ import { TrashBox } from "./trash-box"
 import { useSearch } from "@/hooks/use-search"
 import { useSettings } from "@/hooks/use-settings"
 import { Navbar } from "./navbar"
+import { useMobileSidebar } from "@/hooks/use-mobile-sidebar"
 
 const Navigation = () => {
   const settings = useSettings()
   const params = useParams()
   const router = useRouter()
+  const mobileSidebar = useMobileSidebar()
 
   // Getting the direction of the HTML document
   const isRTL = document.documentElement.getAttribute("dir") === "rtl"
@@ -114,7 +116,11 @@ const Navigation = () => {
         navbarRef.current.style.width
       )
       setMobileNavClosed(true)
-      setTimeout(() => setIsResetting(false), 300)
+
+      setTimeout(() => {
+        setIsResetting(false)
+        mobileSidebar.onOpen()
+      }, 300)
     }
   }
 
@@ -140,6 +146,12 @@ const Navigation = () => {
     })
   }
 
+  useEffect(() => {
+    console.log("Sidebar collapse state changed:", mobileSidebar.collapse)
+    if (mobileSidebar.collapse && isMobile) {
+      collapse()
+    }
+  }, [mobileSidebar.collapse, isMobile])
   // Rendering the JSX for the Navigation component
   return (
     <>
@@ -174,17 +186,26 @@ const Navigation = () => {
             label={t("search")}
             icon={Search}
             isSearch
-            onClick={search.onOpen}
+            onClick={() => {
+              search.onOpen()
+              mobileSidebar.onClose()
+            }}
           />
           <Item
             label={t("Home")}
             icon={Home}
-            onClick={() => router.push("/documents")}
+            onClick={() => {
+              router.push("/documents")
+              mobileSidebar.onClose()
+            }}
           />
           <Item
             label={t("Settings")}
             icon={Settings}
-            onClick={settings.onOpen}
+            onClick={() => {
+              settings.onOpen()
+              mobileSidebar.onClose()
+            }}
           />
           <Item onClick={handleCreate} label={t("newPage")} icon={PenSquare} />
         </div>

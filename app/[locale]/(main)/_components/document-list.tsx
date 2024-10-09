@@ -8,6 +8,7 @@ import { Item } from "./item"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 import { FileIcon } from "lucide-react"
+import { useMobileSidebar } from "@/hooks/use-mobile-sidebar"
 
 type Props = {
   parentDocumentId?: Id<"documents">
@@ -18,6 +19,7 @@ export const DocumentList = ({ parentDocumentId, level = 0 }: Props) => {
   const params = useParams()
   const t = useTranslations("Index")
   const router = useRouter()
+  const MobileSidebar = useMobileSidebar()
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
 
   const onExpand = (documentId: string) => {
@@ -67,7 +69,10 @@ export const DocumentList = ({ parentDocumentId, level = 0 }: Props) => {
         <div key={document._id}>
           <Item
             id={document._id}
-            onClick={() => onRedirect(document._id)}
+            onClick={() => {
+              onRedirect(document._id)
+              MobileSidebar.onClose()
+            }}
             label={document.title}
             icon={FileIcon}
             documentIcon={document.icon}

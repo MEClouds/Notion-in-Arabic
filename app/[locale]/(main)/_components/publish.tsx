@@ -11,7 +11,7 @@ import { Doc } from "@/convex/_generated/dataModel"
 import { useOrigin } from "@/hooks/use-origin"
 import { useMutation } from "convex/react"
 import { Check, Copy, Globe2 } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -23,9 +23,10 @@ export const Publish = ({ initialData }: Props) => {
   const update = useMutation(api.documents.update)
   const [copied, setCopied] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const locale = useLocale()
   const t = useTranslations("Index")
 
-  const urlLink = `${origin}/preview/${initialData._id}`
+  const urlLink = `${origin}/${locale}/preview/${initialData._id}`
 
   const onPublish = () => {
     setIsSubmitting(true)
@@ -83,14 +84,14 @@ export const Publish = ({ initialData }: Props) => {
             </div>
             <div className=" flex items-center">
               <input
-                className="flex-1 px-2 text-xs border rounded-l-md h-8 bg-muted truncate"
+                className="flex-1 px-2 text-xs border rounded-s-md h-8 bg-muted truncate"
                 value={urlLink}
                 disabled
               />
               <Button
                 onClick={onCopy}
                 disabled={copied}
-                className="h-8 rounded-l-none"
+                className="h-8 rounded-s-none"
               >
                 {copied ? (
                   <Check className="w-4 h-4" />

@@ -9,6 +9,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
+import { useMobileSidebar } from "@/hooks/use-mobile-sidebar"
 import { cn } from "@/lib/utils"
 import { useUser } from "@clerk/nextjs"
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
@@ -54,7 +55,7 @@ export const Item = ({
   const create = useMutation(api.documents.create)
   const archive = useMutation(api.documents.archive)
   const t = useTranslations("Index")
-
+  const MobileSidebar = useMobileSidebar()
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation()
     if (!id) return
@@ -86,6 +87,7 @@ export const Item = ({
         router.push(`/documents/${documentId}`)
       }
     )
+
     toast.promise(promise, {
       loading: t("toastLoading"),
       success: t("toastSuccess"),
