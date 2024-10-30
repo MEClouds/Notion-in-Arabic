@@ -4,7 +4,8 @@
 
 **Notions** is a simple, intuitive note-taking app inspired by Notion, offering real-time collaboration and seamless authentication. With support for both Arabic (RTL) and English, **Notions** adapts to diverse linguistic needs and includes both light and dark themes to enhance user experience in any environment.
 
-![App Screenshot](link-to-your-screenshot) 
+![App Screenshot](![image](https://github.com/user-attachments/assets/dadb705d-21c3-47c7-8812-e715cc9e2824)
+) 
 
 ## ✨ Features
 
