@@ -2,7 +2,7 @@
 ![Logo](https://raw.githubusercontent.com/MEClouds/Notion-in-Arabic/a5a48dbf4f7ea56c69a694921f50cf23e24d22be/public/logo.svg)
 # Notions 
 
-**Notions** is a simple, intuitive note-taking app inspired by Notion, offering real-time collaboration and seamless authentication. With support for both Arabic (RTL) and English, **Notions** adapts to diverse linguistic needs and includes both light and dark themes to enhance user experience in any environment.
+**Notions** is a simple, intuitive note-taking app inspired by Notion, providing real-time updates through Convex for seamless, live data synchronization. With support for both Arabic (RTL) and English, **Notions** adapts to diverse linguistic needs and includes both light and dark themes to enhance user experience in any environment.
 
 ![App Screenshot](https://github.com/user-attachments/assets/dadb705d-21c3-47c7-8812-e715cc9e2824)
 
